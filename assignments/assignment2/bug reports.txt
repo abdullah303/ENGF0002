@@ -1,0 +1,21 @@
+bug 1: If a bomb misses a building it will fall forever and not reset. The bomb should reset when
+       it falls off of the screen. You can reproduce this by dropping a bomb from the plane that
+       missed the buildings. I fixed this by resetting the bomb if it goes past CANVAS_HEIGHT.
+
+bug 2: It is impossible to hit the rightmost building. The plane spawns in too far left for a bomb
+       to be able to hit the rightmost building in time. The plane should spawn in further right
+       so that it can hit the building. This can be reproduced by attempting to hit the rightmost
+       building. I fixed this by increasing CANVAS_WIDTH
+
+bug 3: Buildings do not get deleted when flatened. They just stay at the bottom of the screen. The
+       building should be deleted when flattened. This can be reproduced by attempting to flatten
+       a building. I fixed it by implementing the delete_building() function.
+
+bug 4: If a wing hits a building it will cause a game over, even though in the comments it says we 
+       dont worry if a wing hits. It shouldnt be a game over, if a wing hits. I fixed it by deleteing
+       the part of the if statement that checks if a wing has hit.
+
+bug 5: If you flatten all the buildings you do not get 1000 points and go to the next level. You
+       keep flying until you hit the floor and get a game over. You should get 1000 points and move
+       to the next level. This can be reproduced by flattening all the buildings. I fixed this by
+       adding some tolerance to the if statement that checks if the plane has landed.

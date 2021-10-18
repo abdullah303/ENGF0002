@@ -5,7 +5,7 @@ from random import *
 from time import time
 
 #some global constants
-CANVAS_WIDTH = 1000
+CANVAS_WIDTH = 1300
 CANVAS_HEIGHT = 700
 SPACING = 100
 speed = 0.0
@@ -54,7 +54,9 @@ def shrink_building(canvas, building_num, building_width, building_heights, buil
     canvas.delete(building_rects[building_num])
     x = building_xpos[building_num]
     building_rects[building_num] = canvas.create_rectangle(x, CANVAS_HEIGHT, x + building_width,
-                                                           CANVAS_HEIGHT-building_heights[building_num], fill="brown")
+                                                        CANVAS_HEIGHT-building_heights[building_num], fill="brown")
+    if building_heights[building_num] <= 0:
+        delete_building(canvas, building_num, building_rects)
 
 ''' delete building number building_num from the canvas '''
 def delete_building(canvas, building_num, building_rects):
@@ -240,15 +242,14 @@ def check_plane(canvas, plane_pos, building_width, building_heights, building_xp
     plane_nose_pos = [plane_pos[0], plane_pos[1] + 28]
     plane_body_pos = [plane_pos[0] + 12, plane_pos[1] + 32]
     plane_wing_pos = [plane_pos[0] + 94, plane_pos[1] + 48]
+    
     for building_num in range(0, 1200//SPACING):
         if (is_inside_building(building_num, plane_nose_pos, building_width,
                                building_heights, building_xpos)
             or is_inside_building(building_num, plane_body_pos, building_width,
-                                  building_heights, building_xpos)
-            or is_inside_building(building_num, plane_wing_pos, building_width,
                                   building_heights, building_xpos)) :
             game_over(canvas)
-    if plane_body_pos[1] == CANVAS_HEIGHT and plane_body_pos[0] < 20:
+    if plane_body_pos[1] >= CANVAS_HEIGHT - 50 and plane_body_pos[0] < 20:
         plane_landed(canvas)
 
 ''' game_over is called when the plane crashes to stop play and display the
